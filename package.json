@@ -1,0 +1,18 @@
+{
+  "name": "knex-pg-stream-repro",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "knex": "^0.14.6",
+    "pg": "^7.4.1"
+  },
+  "scripts": {
+    "repro": "npm run setup && node index.js",
+    "fixed": "npm run setup && npm install --no-save pg-query-stream && node index.js",
+    "setup": "npm run clean && npm install && npm run createdb && npm run migrate",
+    "clean": "rm -rf node_modules && rm -f package-lock.json && rm -f yarn.lock && (dropdb knex_pg_stream_repro || true)",
+    "createdb": "createdb knex_pg_stream_repro",
+    "migrate": "knex migrate:latest"
+  }
+}
