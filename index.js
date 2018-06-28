@@ -1,9 +1,9 @@
 const knex = require('knex')({
   client: 'pg',
-  version: '9.6',
+  version: '10.3',
   connection: {
     host: '127.0.0.1',
-    database: 'knex_pg_stream_repro'
+    database: 'knex_stream_repro'
   }
 })
 
@@ -17,18 +17,11 @@ async function main() {
     knex('articles').insert({ title: 'Title C' }),
   ])
 
-  try {
-    require.resolve('pg-query-stream')
-    console.log('pg-query-stream installed. All should be good')
-  } catch (e) {
-    console.log('pg-query-stream NOT installed. Should throw error, but is going to hang.')
-  }
-
   const articles = await new Promise((resolve, reject) => {
     console.log('Now we are waiting for the stream to finish or error...')
 
     let articles = []
-    knex('articles')
+    knex.raw('SELECT * FROM articles WHERE id = :id', { id: undefined })
       .stream()
       .on('data', data => {
         articles.push(data)

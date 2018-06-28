@@ -3,10 +3,10 @@
 module.exports = {
   development: {
     client: 'pg',
-    version: '9.6',
+    version: '10.3',
     connection: {
       host: '127.0.0.1',
-      database: 'knex_pg_stream_repro',
+      database: 'knex_stream_repro',
     }
   }
 };
